@@ -1,0 +1,15 @@
+.Container {
+  width: 50vw;
+  height: 50vw;
+  display: flex;
+  flex-direction: column;
+  border: black solid;
+}
+
+.FlexAuto {
+  flex: auto;
+}
+
+.ColorChanged {
+  background-color: black;
+}
