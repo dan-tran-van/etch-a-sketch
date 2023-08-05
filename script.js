@@ -1,4 +1,5 @@
 const divContainer = document.querySelector(".Container");
+let currentSquaresPerSide = 100;
 
 function createSquareGrid(divNumber) {
   for (let i = 1; i <= divNumber; i++) {
@@ -15,7 +16,7 @@ function createSquareGrid(divNumber) {
   }
 }
 
-createSquareGrid(100);
+createSquareGrid(currentSquaresPerSide);
 setHoverEffect();
 
 function setHoverEffect() {
@@ -23,21 +24,49 @@ function setHoverEffect() {
 
   innerGrid.forEach((grid) => {
     grid.addEventListener("mouseenter", () => {
-      grid.classList.add("ColorChanged");
+      grid.style.cssText = "background-color: black";
     });
-  })
+  });
 }
 
 const newSketch = document.querySelector(".NewSketch");
 
 newSketch.addEventListener("click", () => {
-  let squaresPerSide = +prompt("Number of squares per side?", 64);
-  while (!(squaresPerSide > 0 && squaresPerSide <= 100)) {
-    squaresPerSide = +prompt(
+  currentSquaresPerSide = +prompt("Number of squares per side?", 64);
+  while (!(currentSquaresPerSide > 0 && currentSquaresPerSide <= 100)) {
+    currentSquaresPerSide = +prompt(
       "Invalid value, please try again, accepted values from 1 to 100"
     );
   }
-  divContainer.textContent = '';
-  createSquareGrid(squaresPerSide);
+  divContainer.textContent = "";
+  createSquareGrid(currentSquaresPerSide);
   setHoverEffect();
 });
+
+const randomColor = document.querySelector(".RandomColor");
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function setHoverEffectRandom() {
+  const innerGrid = document.querySelectorAll(".InnerGrid");
+
+  innerGrid.forEach((grid) => {
+    grid.addEventListener("mouseenter", () => {
+      grid.style.cssText = `background-color: rgb(${getRandomInt(
+        256
+      )} ${getRandomInt(256)} ${getRandomInt(256)})`;
+    });
+  });
+}
+
+randomColor.addEventListener("click", () => {
+  setHoverEffectRandom();
+});
+
+const blackColor = document.querySelector('.BlackColor');
+
+blackColor.addEventListener('click', () => {
+  setHoverEffect();
+})
