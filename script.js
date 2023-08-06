@@ -1,5 +1,5 @@
 const divContainer = document.querySelector(".Container");
-let currentSquaresPerSide = 100;
+let currentSquaresPerSide;
 
 function createSquareGrid(divNumber) {
   for (let i = 1; i <= divNumber; i++) {
@@ -16,17 +16,18 @@ function createSquareGrid(divNumber) {
   }
 }
 
-createSquareGrid(currentSquaresPerSide);
-setHoverEffect();
+// createSquareGrid(currentSquaresPerSide);
+// setHoverEffect();
 
 function setHoverEffect() {
   const innerGrid = document.querySelectorAll(".InnerGrid");
 
   innerGrid.forEach((grid) => {
     grid.addEventListener("mouseenter", () => {
-      grid.style.cssText = "background-color: black";
+      grid.style.backgroundColor = "rgb(0 0 0)";
     });
   });
+  currentMode = "black";
 }
 
 const newSketch = document.querySelector(".NewSketch");
@@ -54,19 +55,68 @@ function setHoverEffectRandom() {
 
   innerGrid.forEach((grid) => {
     grid.addEventListener("mouseenter", () => {
-      grid.style.cssText = `background-color: rgb(${getRandomInt(
+      grid.style.backgroundColor = `rgb(${getRandomInt(256)} ${getRandomInt(
         256
-      )} ${getRandomInt(256)} ${getRandomInt(256)})`;
+      )} ${getRandomInt(256)})`;
     });
   });
+  currentMode = "random";
 }
 
 randomColor.addEventListener("click", () => {
+  cloneCurrentGrid();
   setHoverEffectRandom();
 });
 
-const blackColor = document.querySelector('.BlackColor');
+const blackColor = document.querySelector(".BlackColor");
 
-blackColor.addEventListener('click', () => {
+blackColor.addEventListener("click", () => {
+  cloneCurrentGrid();
   setHoverEffect();
-})
+});
+
+const darkenColor = document.querySelector(".DarkenColor");
+
+function setHoverEffectDarken() {
+  const innerGrid = document.querySelectorAll(".InnerGrid");
+
+  innerGrid.forEach((grid) => {
+    grid.addEventListener("mouseenter", () => {
+      console.log(grid.style.backgroundColor);
+    });
+  });
+
+  currentMode = "darken";
+}
+
+darkenColor.addEventListener("click", () => {
+  cloneCurrentGrid();
+  setHoverEffectDarken();
+});
+
+let currentMode;
+const clearButton = document.querySelector(".ClearButton");
+
+clearButton.addEventListener("click", () => {
+  divContainer.textContent = "";
+  createSquareGrid(currentSquaresPerSide);
+  switch (currentMode) {
+    case "black":
+      setHoverEffect();
+      break;
+    case "random":
+      setHoverEffectRandom();
+      break;
+    case "darken":
+      setHoverEffectDarken();
+      break;
+  }
+});
+
+function cloneCurrentGrid() {
+  const innerGrid = document.querySelectorAll(".InnerGrid");
+
+  innerGrid.forEach((grid) => {
+    grid.replaceWith(grid.cloneNode(true));
+  });
+}
