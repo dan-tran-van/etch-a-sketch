@@ -82,7 +82,8 @@ function setHoverEffectDarken() {
 
   innerGrid.forEach((grid) => {
     grid.addEventListener("mouseenter", () => {
-      console.log(grid.style.backgroundColor);
+      // console.log(grid.style.backgroundColor);
+      console.log(grid.classList);
     });
   });
 
@@ -91,6 +92,10 @@ function setHoverEffectDarken() {
 
 darkenColor.addEventListener("click", () => {
   cloneCurrentGrid();
+  const innerGrid = document.querySelectorAll(".InnerGrid");
+  innerGrid.forEach((grid) => {
+    grid.classList.add('0');
+  })
   setHoverEffectDarken();
 });
 
